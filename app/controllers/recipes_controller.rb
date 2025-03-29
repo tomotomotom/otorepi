@@ -1,4 +1,12 @@
 class RecipesController < ApplicationController
+
+  def home
+  end
+
+  def index
+    @recipes = Recipe.all.order(created_at: :desc)
+  end
+  
   def new
     @recipe = Recipe.new
     3.times { @recipe.ingredients.build }
