@@ -4,18 +4,14 @@ document.addEventListener("turbo:load", function () {
   const stepElement = document.getElementById('step-display');
   if (!stepElement) return;
 
+  // ---------- ステップデータ取得 ----------
   const stepsData = stepElement.dataset.steps;
-  if (!stepsData) {
-    console.warn("⚠️ data-steps が存在しません");
-    return;
-  }
-
   let steps = [];
 
   try {
     steps = JSON.parse(stepsData);
   } catch (e) {
-    console.error("❌ JSON.parse エラー:", e);
+    console.error("❌ JSON.parse(steps) エラー:", e);
     return;
   }
 
@@ -41,11 +37,34 @@ document.addEventListener("turbo:load", function () {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ja-JP';
-      speechSynthesis.cancel(); // 既存の発話を止める
+      speechSynthesis.cancel();
       speechSynthesis.speak(utterance);
     }
   }
 
+  // ---------- 材料読み上げ ----------
+  window.speakIngredients = function () {
+    const ingredientsElement = document.getElementById("ingredients-data");
+    if (!ingredientsElement) return;
+
+    const data = ingredientsElement.dataset.ingredients;
+    let ingredients = [];
+
+    try {
+      ingredients = JSON.parse(data);
+    } catch (e) {
+      console.error("❌ JSON.parse(ingredients) エラー:", e);
+      return;
+    }
+
+    const text = ingredients.join("。");
+    if (text) {
+      const message = "本日の材料は、" + text + "です。";
+      speak(message);
+    }
+  };
+
+  // ---------- グローバル関数 ----------
   window.speakCurrentStep = function () {
     speak(steps[currentStep]);
   };
