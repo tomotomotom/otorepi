@@ -1,5 +1,4 @@
 document.addEventListener("turbo:load", function () {
-  console.log("🟢 read.js loaded!");
 
   const stepElement = document.getElementById('step-display');
   if (!stepElement) return;

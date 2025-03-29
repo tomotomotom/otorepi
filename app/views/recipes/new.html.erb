@@ -1,28 +1,36 @@
-<h1>レシピを登録する</h1>
+<h1>🍳 レシピを登録する</h1>
 
 <%= simple_form_for @recipe do |f| %>
-  <%= f.input :title, label: "レシピタイトル" %>
-  <%= f.input :description, label: "レシピの説明" %>
+  <div class="form-section">
+    <%= f.input :title, label: "レシピタイトル", input_html: { placeholder: "例：ふわとろオムライス" } %>
+    <%= f.input :description, label: "レシピの説明", input_html: { placeholder: "例：簡単にできるふわふわオムライスです" } %>
+  </div>
 
-  <h2>材料</h2>
-  <% @recipe.ingredients.each_with_index do |ingredient, i| %>
-    <%= f.simple_fields_for :ingredients, ingredient do |ingredient_fields| %>
-      <div class="ingredient-block">
-        <%= ingredient_fields.input :name, label: "材料名 ##{i+1}" %>
-        <%= ingredient_fields.input :quantity, label: "分量" %>
-      </div>
+  <fieldset class="form-section">
+    <legend><h2>🧂 材料</h2></legend>
+    <% @recipe.ingredients.each_with_index do |ingredient, i| %>
+      <%= f.simple_fields_for :ingredients, ingredient do |ingredient_fields| %>
+        <div class="nested-field-group">
+          <%= ingredient_fields.input :name, label: "材料名 ##{i + 1}", input_html: { placeholder: "例：卵" } %>
+          <%= ingredient_fields.input :quantity, label: "分量", input_html: { placeholder: "例：2個" } %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </fieldset>
 
-  <h2>手順</h2>
-  <% @recipe.steps.each_with_index do |step, i| %>
-    <%= f.simple_fields_for :steps, step do |step_fields| %>
-      <div class="step-block">
-        <%= step_fields.input :number, label: "ステップ番号", input_html: { value: step.number || i + 1 } %>
-        <%= step_fields.input :content, label: "手順内容" %>
-      </div>
+  <fieldset class="form-section">
+    <legend><h2>📝 手順</h2></legend>
+    <% @recipe.steps.each_with_index do |step, i| %>
+      <%= f.simple_fields_for :steps, step do |step_fields| %>
+        <div class="nested-field-group">
+          <%= step_fields.input :number, label: "ステップ番号", input_html: { value: step.number || i + 1 } %>
+          <%= step_fields.input :content, label: "手順内容", input_html: { placeholder: "例：卵をボウルに割り入れてよく混ぜる" } %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </fieldset>
 
-  <%= f.button :submit, "レシピを登録する" %>
+  <div style="margin-top: 2rem;">
+    <%= f.button :submit, "✅ レシピを登録する", class: "btn btn-main" %>
+  </div>
 <% end %>

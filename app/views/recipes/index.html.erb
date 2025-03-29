@@ -1,17 +1,38 @@
 <h1>📚 登録済みレシピ一覧</h1>
 
-<%= link_to '➕ 新しいレシピを登録する', new_recipe_path, class: "btn" %>
+<%= button_to '➕ 新しいレシピを登録する',
+              new_recipe_path,
+              method: :get,
+              class: 'btn btn-main',
+              form: { class: 'inline-form' } %>
 
 <hr>
 
 <% if @recipes.any? %>
   <ul>
     <% @recipes.each do |recipe| %>
-      <li style="margin-bottom: 1rem;">
+      <li style="margin-bottom: 1.5rem;">
         <strong><%= recipe.title %></strong><br>
         <%= truncate(recipe.description, length: 80) if recipe.description.present? %><br>
-        <%= link_to '詳細を見る', recipe_path(recipe), class: "btn" %>
-        <%= link_to '読み上げモードへ', read_recipe_path(recipe), class: "btn btn-secondary" %>
+
+        <%= button_to '詳細を見る',
+                      recipe_path(recipe),
+                      method: :get,
+                      class: 'btn btn-primary',
+                      form: { class: 'inline-form' } %>
+
+        <%= button_to '読み上げモードへ',
+                      read_recipe_path(recipe),
+                      method: :get,
+                      class: 'btn btn-secondary',
+                      form: { class: 'inline-form' } %>
+
+        <%= button_to '🗑️ レシピを削除',
+                      recipe_path(recipe),
+                      method: :delete,
+                      data: { turbo_confirm: '本当に削除しますか？' },
+                      class: 'btn btn-danger',
+                      form: { class: 'inline-form' } %>
       </li>
     <% end %>
   </ul>
