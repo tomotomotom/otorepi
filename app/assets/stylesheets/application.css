@@ -1,79 +1,268 @@
-/* 📝 レシピ登録フォームのレイアウト */
-.form-section {
-  margin-bottom: 2rem;
-}
-
-.form-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.form-input,
-.form-textarea,
-.form-select {
-  width: 100%;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 1.2rem;
-  box-sizing: border-box;
-}
-
-.form-textarea {
-  height: 6rem;
-  resize: vertical;
-}
-
-/* 🧂 材料や手順の項目ボックス */
-.nested-field-group {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border: 1px dashed #ccc;
-  border-radius: 6px;
-  background: #f9f9f9;
-}
-
-/* ➕ 追加/削除ボタン */
-.add-button,
-.remove-button {
+/* 🔘 共通ボタンスタイル（色は個別に指定） */
+.btn {
   display: inline-block;
-  margin-top: 0.5rem;
-  padding: 6px 10px;
-  font-size: 0.9rem;
+  margin: 0.5rem 0.5rem 0 0;
+  padding: 10px 16px;
+  font-size: 1rem;
   font-weight: bold;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  text-decoration: none;
   cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.2;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* 🎨 ボタンの色バリエーション + hoverエフェクト */
+
+/* メイン（登録・一覧など） */
+.btn-main {
+  background-color: #4CAF50;
+}
+.btn-main:hover {
+  background-color: #43a047;
+}
+
+/* プライマリ（編集など） */
+.btn-primary {
+  background-color: #2196F3;
+}
+.btn-primary:hover {
+  background-color: #1976D2;
+}
+
+/* セカンダリ（読み上げモードなど） */
+.btn-secondary {
+  background-color: #888;
+}
+.btn-secondary:hover {
+  background-color: #666;
+}
+
+/* 危険操作（削除など） */
+.btn-danger {
+  background-color: #e53935;
+}
+.btn-danger:hover {
+  background-color: #c62828;
+}
+
+/* 🌐 サイト共通ヘッダー */
+.site-header {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.site-header .container {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #333;
+  font-weight: bold;
   text-decoration: none;
 }
 
-.add-button {
+.nav-link:hover {
+  text-decoration: underline;
+  color: #4CAF50;
+}
+
+/* 🌐 サイト共通フッター */
+.site-footer {
+  background-color: #f9f9f9;
+  border-top: 1px solid #ccc;
+  padding: 1rem 0;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+.site-footer .container {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* 🏠 トップページ用のメインボタン */
+.top-button {
+  display: inline-block;
+  width: 220px;
+  padding: 1.2rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  margin: 1rem;
+  cursor: pointer;
+  color: white;
   background-color: #4CAF50;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.remove-button {
-  background-color: #e53935;
-  margin-left: 0.5rem;
+/* 🖱️ hover時の効果 */
+.top-button:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
 }
 
-/* レシピ登録画面 */
+/* 👇 サブ色バリエーションが必要なら追加可能 */
+.top-button.secondary {
+  background-color: #888;
+}
 
-/* 📝 セクションごとに余白をつける */
+.top-button.secondary:hover {
+  background-color: #666;
+}
+
+.top-buttons {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.top-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+/* 🎯 共通：トップページのタイトル */
+.top-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+/* 🎯 ボタン配置用ラッパー */
+.top-buttons {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* 📱 トップページ用ボタン */
+.top-button {
+  display: inline-block;
+  width: 220px;
+  padding: 1.2rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  margin: 1rem;
+  cursor: pointer;
+  color: white;
+  background-color: #4CAF50;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.top-button:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
+}
+
+.top-button.secondary {
+  background-color: #888;
+}
+.top-button.secondary:hover {
+  background-color: #666;
+}
+
+/* ✅ スマホ対応：画面幅が600px以下のとき */
+@media screen and (max-width: 600px) {
+  .top-button {
+    width: 90%;
+    font-size: 1.1rem;
+    padding: 1rem;
+    margin: 0.5rem auto;
+    display: block;
+  }
+
+  .top-title {
+    font-size: 1.5rem;
+  }
+}
+
+.recipe-block {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fefefe;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .btn {
+    display: block;
+    width: 90%;
+    margin: 0.5rem auto;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .inline-form {
+    display: block;
+    text-align: center;
+  }
+}
+
+.ingredient-block,
+.step-block {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+@media screen and (max-width: 600px) {
+  ul, ol {
+    padding-left: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .ingredient-block,
+  .step-block {
+    padding: 0.8rem;
+  }
+}
+
+/* 📝 フォーム全体のセクション区切り */
 .form-section {
   margin-bottom: 2rem;
 }
 
-/* 🧾 入力ラベル */
-.form-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-/* 🧂 材料・手順などのグループ用ボックス */
+/* 🧾 ラベル付きのフィールドグループ（材料・手順） */
 .nested-field-group {
   margin-bottom: 1.5rem;
   padding: 1rem;
@@ -82,7 +271,7 @@
   background: #f9f9f9;
 }
 
-/* 🧾 インプット類 */
+/* ✅ simple_form の input テーマを統一 */
 input[type="text"],
 input[type="number"],
 textarea {
@@ -93,6 +282,7 @@ textarea {
   border-radius: 6px;
   margin-bottom: 1.2rem;
   box-sizing: border-box;
+  background-color: #fff;
 }
 
 textarea {
@@ -100,48 +290,49 @@ textarea {
   resize: vertical;
 }
 
-/* ➕ 追加・削除ボタン（後でJS対応するなら） */
-.add-button,
-.remove-button {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 6px 10px;
+/* 🎯 フィールドラベル（simple_form が自動で生成） */
+input + label,
+textarea + label,
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+/* ✅ エラーメッセージの見た目（必要であれば） */
+.error {
+  color: #e53935;
   font-size: 0.9rem;
-  font-weight: bold;
-  color: white;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* 🧼 fieldset と legend のスタイル調整 */
+fieldset {
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
 }
 
-.add-button {
-  background-color: #4CAF50;
+legend h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
 }
 
-.remove-button {
-  background-color: #e53935;
-  margin-left: 0.5rem;
-}
+/* 📱 スマホ対応 */
+@media screen and (max-width: 600px) {
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    font-size: 1rem;
+  }
 
-/* 🔘 共通ボタンスタイル（登録など） */
-.btn {
-  display: inline-block;
-  margin: 0.5rem 0.5rem 0 0;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: white;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 6px;
-  text-decoration: none;
-  cursor: pointer;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 1.2;
-}
+  .form-section {
+    margin-bottom: 1.5rem;
+  }
 
-.btn-main {
-  background-color: #4CAF50;
+  .nested-field-group {
+    padding: 0.8rem;
+  }
 }

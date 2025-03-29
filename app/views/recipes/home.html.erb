@@ -1,11 +1,15 @@
-<div style="text-align: center; margin-top: 5rem;">
-  <h1 style="font-size: 3rem; margin-bottom: 2rem;">🍳 オトレピ</h1>
+<h1 class="top-title">🍳 オトレピへようこそ！</h1>
 
-  <div style="margin-bottom: 2rem;">
-    <%= link_to 'レシピを登録する', new_recipe_path, class: "btn-main" %>
-  </div>
+<div class="top-buttons">
+  <%= button_to '➕ レシピを登録する',
+                new_recipe_path,
+                method: :get,
+                class: 'top-button',
+                form: { class: 'inline-form' } %>
 
-  <div>
-    <%= link_to 'レシピ一覧を見る', recipes_path, class: "btn-sub" %>
-  </div>
+  <%= button_to '📋 レシピ一覧を見る',
+                recipes_path,
+                method: :get,
+                class: 'top-button secondary',
+                form: { class: 'inline-form' } %>
 </div>

@@ -1,0 +1,11 @@
+<h1>✏️ レシピを編集する</h1>
+
+<%= render 'form', recipe: @recipe %>
+
+<div style="margin-top: 2rem;">
+  <%= button_to '🔙 詳細画面へ戻る',
+                recipe_path(@recipe),
+                method: :get,
+                class: 'btn btn-secondary',
+                form: { class: 'inline-form' } %>
+</div>

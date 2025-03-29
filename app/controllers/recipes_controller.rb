@@ -42,15 +42,28 @@ class RecipesController < ApplicationController
       redirect_to recipe_path(@recipe), alert: '削除に失敗しました'
     end
   end
-  
+
+  def edit
+    @recipe = Recipe.find(params[:id])
+  end
+
+  def update
+    @recipe = Recipe.find(params[:id])
+    if @recipe.update(recipe_params)
+      redirect_to @recipe, notice: "レシピを更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
 
   private
 
   def recipe_params
     params.require(:recipe).permit(
-      :title, :description,
-      ingredients_attributes: [:name, :quantity],
-      steps_attributes: [:number, :content]
+      :title,
+      :description,
+      ingredients_attributes: [:id, :name, :quantity, :_destroy],
+      steps_attributes: [:id, :number, :content, :_destroy]
     )
   end
 end
