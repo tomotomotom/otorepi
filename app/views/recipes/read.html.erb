@@ -2,20 +2,20 @@
 
 <div id="step-counter" style="margin-bottom: 1rem; color: #888;"></div>
 
-<div id="ingredients-data"
-     data-ingredients="<%= @recipe.ingredients.map { |i| "#{i.name}、#{i.quantity}" }.to_json %>">
-</div>
-
-<div id="step-display"
-     data-steps='<%= @steps.present? ? raw(@steps.order(:number).pluck(:content).to_json) : '[]' %>'
+<!-- 材料・手順データ -->
+<div id="read-display"
+     data-materials="<%= escape_javascript(@recipe.materials_text.to_s) %>"
+     data-steps="<%= escape_javascript(@recipe.steps_text.to_s) %>"
      style="margin: 2rem 0; font-size: 1.5rem; font-weight: bold;">
 </div>
 
-<div style="margin-bottom: 1.5rem;">
+<div class="read-controls" style="margin-bottom: 1.5rem;">
+  <button onclick="readMaterials()">🥬 材料を読み上げ</button>
+  <button onclick="startCooking()">🍳 料理を開始</button>
   <button onclick="prevStep()">⬅️ 戻る</button>
   <button onclick="nextStep()">次へ ➡️</button>
-  <button onclick="speakCurrentStep()">🔊 読み上げ</button>
-  <button onclick="speakIngredients()">🥬 材料を読みあげる</button>
+  <button onclick="repeatStep()">🔊 今のステップ</button>
+  <button onclick="stopSpeech()">🔇 音声を止める</button>
 </div>
 
-<%= link_to 'レシピ詳細に戻る', recipe_path(@recipe), class: 'btn btn-secondary' %>
+<%= link_to '📄 レシピ詳細に戻る', recipe_path(@recipe), class: 'btn btn-secondary' %>

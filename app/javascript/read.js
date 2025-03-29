@@ -1,65 +1,56 @@
 document.addEventListener("turbo:load", function () {
+  const display = document.getElementById("read-display");
+  const stepCounter = document.getElementById("step-counter");
+  if (!display) return;
 
-  const stepElement = document.getElementById('step-display');
-  if (!stepElement) return;
+  const cleanText = (rawText) => {
+    return (rawText || "")
+      .replace(/\\n/g, "\n")
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
+  };
 
-  // ---------- ステップデータ取得 ----------
-  const stepsData = stepElement.dataset.steps;
-  let steps = [];
-
-  try {
-    steps = JSON.parse(stepsData);
-  } catch (e) {
-    console.error("❌ JSON.parse(steps) エラー:", e);
-    return;
-  }
-
+  const materials = cleanText(display.dataset.materials);
+  const steps = cleanText(display.dataset.steps);
   let currentStep = 0;
 
-  function displayStep(index) {
-    const counter = document.getElementById('step-counter');
-    if (steps[index]) {
-      stepElement.innerText = steps[index];
-      counter.innerText = `ステップ ${index + 1} / ${steps.length}`;
-    } else {
-      stepElement.innerText = "ステップがありません";
-      counter.innerText = "";
-    }
-  }
-
   function speak(text) {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ja-JP';
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utterance);
-    }
-  }
-
-  // ---------- 材料読み上げ ----------
-  window.speakIngredients = function () {
-    const ingredientsElement = document.getElementById("ingredients-data");
-    if (!ingredientsElement) return;
-
-    const data = ingredientsElement.dataset.ingredients;
-    let ingredients = [];
-
-    try {
-      ingredients = JSON.parse(data);
-    } catch (e) {
-      console.error("❌ JSON.parse(ingredients) エラー:", e);
+    if (!("speechSynthesis" in window)) {
+      alert("このブラウザは音声読み上げに対応していません");
       return;
     }
 
-    const text = ingredients.join("。");
-    if (text) {
-      const message = "本日の材料は、" + text + "です。";
-      speak(message);
-    }
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "ja-JP";
+    speechSynthesis.speak(utter);
+  }
+
+  window.readMaterials = function () {
+    const text = materials.join("。") + "。";
+    display.innerText = "【材料】\n" + materials.map(m => "・" + m).join("\n");
+    stepCounter.innerText = "材料";
+    speak("本日の材料は、" + text);
+    currentStep = 0;
   };
 
-  // ---------- グローバル関数 ----------
-  window.speakCurrentStep = function () {
+  function displayStep(index) {
+    if (steps[index]) {
+      display.innerText = steps[index];
+      stepCounter.innerText = `ステップ ${index + 1} / ${steps.length}`;
+    } else {
+      display.innerText = "ステップがありません";
+      stepCounter.innerText = "";
+    }
+  }
+
+  window.startCooking = function () {
+    displayStep(currentStep);
+    speak(steps[currentStep]);
+  };
+
+  window.repeatStep = function () {
     speak(steps[currentStep]);
   };
 
@@ -79,26 +70,10 @@ document.addEventListener("turbo:load", function () {
     }
   };
 
-  // ---------- 初期表示＆読み上げ：本日の材料 ----------
-  const ingredientsElement = document.getElementById("ingredients-data");
-  if (ingredientsElement) {
-    const data = ingredientsElement.dataset.ingredients;
-    let ingredients = [];
+  window.stopSpeech = function () {
+    speechSynthesis.cancel();
+  };
 
-    try {
-      ingredients = JSON.parse(data);
-    } catch (e) {
-      console.error("❌ JSON.parse(ingredients) エラー:", e);
-    }
-
-    const display = document.getElementById("step-display");
-    const counter = document.getElementById("step-counter");
-
-    const textList = ingredients.map(i => `・${i}`).join("\n");
-    display.innerText = "【材料】\n" + textList;
-    counter.innerText = "材料";
-
-    const speakText = ingredients.join("、");
-    speak("本日の材料は、" + speakText + "です。");
-  }
+  // ✅ 初期：材料を読み上げ
+  readMaterials();
 });

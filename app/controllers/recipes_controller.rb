@@ -9,18 +9,14 @@ class RecipesController < ApplicationController
   
   def new
     @recipe = Recipe.new
-    3.times { @recipe.ingredients.build }
-    3.times { @recipe.steps.build }
   end
 
   def create
     @recipe = Recipe.new(recipe_params)
-
+  
     if @recipe.save
       redirect_to @recipe, notice: "レシピを登録しました。"
     else
-      3.times { @recipe.ingredients.build } if @recipe.ingredients.empty?
-      3.times { @recipe.steps.build } if @recipe.steps.empty?
       render :new
     end
   end
@@ -31,7 +27,6 @@ class RecipesController < ApplicationController
 
   def read
     @recipe = Recipe.find(params[:id])
-    @steps = @recipe.steps.order(:number)
   end
 
   def destroy
@@ -62,8 +57,8 @@ class RecipesController < ApplicationController
     params.require(:recipe).permit(
       :title,
       :description,
-      ingredients_attributes: [:id, :name, :quantity, :_destroy],
-      steps_attributes: [:id, :number, :content, :_destroy]
+      :materials_text,
+      :steps_text
     )
   end
 end
