@@ -34,6 +34,16 @@ class RecipesController < ApplicationController
     @steps = @recipe.steps.order(:number)
   end
 
+  def destroy
+    @recipe = Recipe.find(params[:id])
+    if @recipe.destroy
+      redirect_to recipes_path, notice: 'レシピを削除しました'
+    else
+      redirect_to recipe_path(@recipe), alert: '削除に失敗しました'
+    end
+  end
+  
+
   private
 
   def recipe_params
