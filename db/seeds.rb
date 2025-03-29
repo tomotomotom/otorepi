@@ -1,65 +1,38 @@
-puts "🌱 Seeding database..."
+# レシピの作成
+recipe = Recipe.create!(
+  title: "鶏むね肉でひと口ステーキ（ガリバタオニオンソース）",
+  description: "鶏むね肉を使ったジューシーなステーキ風おかず。にんにくと玉ねぎの香りでご飯が進む！"
+)
 
-Recipe.destroy_all
-
-recipes = [
-  {
-    title: "簡単カレー",
-    description: "市販のルーで簡単に作れる定番カレーです。",
-    ingredients: [
-      { name: "玉ねぎ", quantity: "1個" },
-      { name: "じゃがいも", quantity: "2個" },
-      { name: "カレールー", quantity: "1/2箱" }
-    ],
-    steps: [
-      { number: 1, content: "玉ねぎとじゃがいもを切る。" },
-      { number: 2, content: "野菜を炒めて水を加える。" },
-      { number: 3, content: "カレールーを入れて煮込む。" }
-    ]
-  },
-  {
-    title: "たまごサンド",
-    description: "ふんわり卵が美味しいサンドイッチ。",
-    ingredients: [
-      { name: "卵", quantity: "2個" },
-      { name: "マヨネーズ", quantity: "大さじ1" },
-      { name: "食パン", quantity: "2枚" }
-    ],
-    steps: [
-      { number: 1, content: "卵を茹でてつぶす。" },
-      { number: 2, content: "マヨネーズと混ぜる。" },
-      { number: 3, content: "パンに挟んで切る。" }
-    ]
-  },
-  {
-    title: "だし巻き卵",
-    description: "出汁の効いたふわふわ卵焼き。",
-    ingredients: [
-      { name: "卵", quantity: "3個" },
-      { name: "だし", quantity: "50ml" },
-      { name: "しょうゆ", quantity: "小さじ1" }
-    ],
-    steps: [
-      { number: 1, content: "卵と調味料を混ぜる。" },
-      { number: 2, content: "フライパンで巻きながら焼く。" },
-      { number: 3, content: "形を整えて完成。" }
-    ]
-  }
+# 材料の登録
+ingredients = [
+  ["鶏むね肉", "600g"],
+  ["A 酒", "大さじ1"],
+  ["A 醤油", "大さじ1/2"],
+  ["片栗粉", "大さじ4"],
+  ["サラダ油", "大さじ2"],
+  ["B 玉ねぎみじん切り", "1/2個（小サイズ）"],
+  ["B 醤油", "大さじ3"],
+  ["B みりん", "大さじ1"],
+  ["B 酒", "大さじ1"],
+  ["B 砂糖", "大さじ1"],
+  ["B 酢", "大さじ1"],
+  ["B にんにくチューブ", "3cm"],
+  ["B バター", "15g"]
 ]
 
-recipes.each do |recipe_data|
-  recipe = Recipe.create!(
-    title: recipe_data[:title],
-    description: recipe_data[:description]
-  )
-
-  recipe_data[:ingredients].each do |ingredient|
-    recipe.ingredients.create!(ingredient)
-  end
-
-  recipe_data[:steps].each do |step|
-    recipe.steps.create!(step)
-  end
+ingredients.each do |name, quantity|
+  recipe.ingredients.create!(name: name, quantity: quantity)
 end
 
-puts "✅ Seed completed!"
+# 手順の登録
+steps = [
+  "鶏むね肉はひと口大に切り、ポリ袋に入れて A を揉み込む。片栗粉をまぶす。B の調味料は混ぜ合わせておく。",
+  "フライパンにサラダ油大さじ2を入れて中火で熱し、鶏むね肉を焼く。",
+  "焼き色がついたら裏返して蓋をし、弱めの中火で3分ほど加熱する。",
+  "余分な油を拭き取り、B を入れて少し煮詰めて完成。お好みでブラックペッパーをかけても◎"
+]
+
+steps.each_with_index do |content, index|
+  recipe.steps.create!(number: index + 1, content: content)
+end
