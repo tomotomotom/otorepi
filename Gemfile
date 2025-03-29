@@ -66,3 +66,14 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+# デバッグ用
+gem 'pry-rails'
+
+# フォーム支援
+gem 'simple_form'
+
+# 開発中でも.envが使える
+gem 'dotenv-rails', groups: [:development, :test]
+
+#（必要に応じて）AWS Pollyなど
+# gem 'aws-sdk-polly'
