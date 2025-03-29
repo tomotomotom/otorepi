@@ -107,6 +107,15 @@
   margin: 0 auto;
 }
 
+/* 🏠 トップページ用の説明文 */
+.top-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #444;
+}
+
 /* 🏠 トップページ用のメインボタン */
 .top-button {
   display: inline-block;

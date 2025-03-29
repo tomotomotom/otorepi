@@ -14,11 +14,6 @@ document.addEventListener("turbo:load", function () {
     return;
   }
 
-  if (steps.length === 0) {
-    stepElement.innerText = "ステップが登録されていません";
-    return;
-  }
-
   let currentStep = 0;
 
   function displayStep(index) {
@@ -84,7 +79,26 @@ document.addEventListener("turbo:load", function () {
     }
   };
 
-  // 初期表示＆読み上げ
-  displayStep(currentStep);
-  speak(steps[currentStep]);
+  // ---------- 初期表示＆読み上げ：本日の材料 ----------
+  const ingredientsElement = document.getElementById("ingredients-data");
+  if (ingredientsElement) {
+    const data = ingredientsElement.dataset.ingredients;
+    let ingredients = [];
+
+    try {
+      ingredients = JSON.parse(data);
+    } catch (e) {
+      console.error("❌ JSON.parse(ingredients) エラー:", e);
+    }
+
+    const display = document.getElementById("step-display");
+    const counter = document.getElementById("step-counter");
+
+    const textList = ingredients.map(i => `・${i}`).join("\n");
+    display.innerText = "【材料】\n" + textList;
+    counter.innerText = "材料";
+
+    const speakText = ingredients.join("、");
+    speak("本日の材料は、" + speakText + "です。");
+  }
 });
