@@ -1,0 +1,16 @@
+<h1><%= @recipe.title %>（読み上げモード）</h1>
+
+<div id="step-counter" style="margin-bottom: 1rem; color: #888;"></div>
+
+<div id="step-display"
+     data-steps='<%= @steps.present? ? raw(@steps.order(:number).pluck(:content).to_json) : '[]' %>'
+     style="margin: 2rem 0; font-size: 1.5rem; font-weight: bold;">
+</div>
+
+<div style="margin-bottom: 1.5rem;">
+  <button onclick="prevStep()">⬅️ 戻る</button>
+  <button onclick="nextStep()">次へ ➡️</button>
+  <button onclick="speakCurrentStep()">🔊 読み上げ</button>
+</div>
+
+<%= link_to 'レシピ詳細に戻る', recipe_path(@recipe), class: 'btn btn-secondary' %>

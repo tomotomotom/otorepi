@@ -1,0 +1,20 @@
+<h1>📚 登録済みレシピ一覧</h1>
+
+<%= link_to '➕ 新しいレシピを登録する', new_recipe_path, class: "btn" %>
+
+<hr>
+
+<% if @recipes.any? %>
+  <ul>
+    <% @recipes.each do |recipe| %>
+      <li style="margin-bottom: 1rem;">
+        <strong><%= recipe.title %></strong><br>
+        <%= truncate(recipe.description, length: 80) if recipe.description.present? %><br>
+        <%= link_to '詳細を見る', recipe_path(recipe), class: "btn" %>
+        <%= link_to '読み上げモードへ', read_recipe_path(recipe), class: "btn btn-secondary" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>まだレシピが登録されていません。</p>
+<% end %>

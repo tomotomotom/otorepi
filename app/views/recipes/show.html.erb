@@ -1,0 +1,28 @@
+<h1><%= @recipe.title %></h1>
+
+<% if @recipe.description.present? %>
+  <p><strong>説明：</strong><%= @recipe.description %></p>
+<% end %>
+
+<hr>
+
+<h2>材料</h2>
+<ul>
+  <% @recipe.ingredients.each do |ingredient| %>
+    <li><%= ingredient.name %>：<%= ingredient.quantity %></li>
+  <% end %>
+</ul>
+
+<hr>
+
+<h2>手順</h2>
+<ol>
+  <% @recipe.steps.order(:number).each do |step| %>
+    <li><%= step.content %></li>
+  <% end %>
+</ol>
+
+<hr>
+
+<%= link_to '読み上げモードへ ▶️', read_recipe_path(@recipe), class: "btn btn-primary" %>
+<%= link_to 'レシピ一覧へ戻る', recipes_path, class: "btn btn-secondary" %>
