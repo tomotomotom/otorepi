@@ -289,7 +289,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
-  pg (~> 1.1.4)
+  pg
   pry-rails
   puma (>= 5.0)
   rails (~> 7.1.0)
