@@ -76,4 +76,15 @@ document.addEventListener("turbo:load", function () {
 
   // ✅ 初期：材料を読み上げ
   readMaterials();
+
+  // ✅ ページを離れるときに読み上げを止める
+window.addEventListener("beforeunload", () => {
+  speechSynthesis.cancel();
+});
+
+// ✅ Turboナビゲーションでのページ遷移時にも止める
+document.addEventListener("turbo:before-visit", () => {
+  speechSynthesis.cancel();
+});
+
 });
