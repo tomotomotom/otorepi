@@ -77,3 +77,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 #（必要に応じて）AWS Pollyなど
 # gem 'aws-sdk-polly'
+
+group :production do
+  gem 'pg'
+end
