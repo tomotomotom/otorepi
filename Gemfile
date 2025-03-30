@@ -79,5 +79,5 @@ gem 'dotenv-rails', groups: [:development, :test]
 # gem 'aws-sdk-polly'
 
 group :production do
-  gem 'pg'
+  gem 'pg', '>= 1.5.3'
 end
