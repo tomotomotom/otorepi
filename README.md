@@ -5,6 +5,8 @@
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 ![Made with](https://img.shields.io/badge/Made%20with-SpeechSynthesis%20API-blue)
 
+![トップページ](./トップ.png)
+
 ---
 
 ## 📖 概要
@@ -19,9 +21,13 @@
 ## ✨ 機能（MVP）
 
 - レシピの登録（タイトル・材料・手順）
-- 手順をステップごとに登録
-- 登録済みレシピの一覧・詳細表示
+  ![レシピ登録](./レシピ登録.png)
+- 登録済みレシピの一覧表示
+  ![レシピ一覧](./レシピ一覧.png)
+- 登録済みレシピの詳細表示
+  ![詳細画面](./詳細画面.png)
 - ステップごとに音声でレシピを読み上げる（ブラウザの音声合成機能を使用）
+  ![読み上げ](./読み上げ.png)
 
 ---
 
@@ -42,6 +48,7 @@ cd otorepi
 bundle install
 rails db:create db:migrate
 rails server
+```
 
 ## 🗂 データベース設計
 
@@ -57,13 +64,9 @@ rails server
 | created_at     | datetime | 作成日時                                   |
 | updated_at     | datetime | 更新日時                                   |
 
-📝 **補足**：
-- `materials_text` には改行区切りで材料を記述（例：「卵 2個」「牛乳 100ml」など）
-- `steps_text` には調理工程をステップごとに記述（例：「卵をよく混ぜる」「フライパンに流す」など）
-- 本構成によりフォームがシンプルかつ自由度の高い UI になります
+---
 
-🔮 今後の予定（発展機能）
-音声操作（「次へ」「戻る」「ストップ」など）
+## 🔮 今後の予定（発展機能）
 
 Amazon Polly等を使った高品質音声読み上げ
 
@@ -73,7 +76,13 @@ Amazon Polly等を使った高品質音声読み上げ
 
 ユーザー登録・ログイン機能（任意）
 
-📄 ライセンス
-MIT License
+---
+
+## ⏰ 制作時間
+約3週間（企画〜デプロイまで）
 
 ---
+
+## 📄 ライセンス
+MIT License
+
