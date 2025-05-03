@@ -27,12 +27,14 @@
                       class: 'btn btn-secondary',
                       form: { class: 'inline-form' } %>
 
-        <%= button_to '🗑️ レシピを削除',
-                      recipe_path(recipe),
-                      method: :delete,
-                      data: { turbo_confirm: '本当に削除しますか？' },
-                      class: 'btn btn-danger',
-                      form: { class: 'inline-form' } %>
+        <% if current_user == recipe.user %>
+          <%= button_to '🗑️ レシピを削除',
+                        recipe_path(recipe),
+                        method: :delete,
+                        data: { turbo_confirm: '本当に削除しますか？' },
+                        class: 'btn btn-danger',
+                        form: { class: 'inline-form' } %>
+        <% end %>
       </li>
     <% end %>
   </ul>

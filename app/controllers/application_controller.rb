@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :basic_auth
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
 
   private
@@ -9,4 +9,14 @@ class ApplicationController < ActionController::Base
       username == ENV["BASIC_AUTH_USER"] && password == ENV["BASIC_AUTH_PASSWORD"]  # 環境変数を読み込む記述に変更
     end
   end
+
+  protected
+  def configure_permitted_parameters
+    # ✅ サインアップ時に nickname を許可
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname])
+
+    # ✅ プロフィール編集時も nickname を許可
+    devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
+  end
+
 end

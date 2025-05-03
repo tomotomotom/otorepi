@@ -1,4 +1,7 @@
 class RecipesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def home
   end
@@ -12,10 +15,9 @@ class RecipesController < ApplicationController
   end
 
   def create
-    @recipe = Recipe.new(recipe_params)
-  
+    @recipe = current_user.recipes.build(recipe_params)
     if @recipe.save
-      redirect_to @recipe, notice: "レシピを登録しました。"
+      redirect_to @recipe, notice: "レシピを登録しました"
     else
       render :new
     end
@@ -61,4 +63,18 @@ class RecipesController < ApplicationController
       :steps_text
     )
   end
+
+  def correct_user
+    @recipe = Recipe.find(params[:id])
+    unless @recipe.user == current_user
+      redirect_to recipes_path, alert: "他人のレシピは編集できません。"
+    end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
+  end
+end
 end

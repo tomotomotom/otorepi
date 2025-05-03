@@ -81,3 +81,8 @@ gem 'dotenv-rails', groups: [:development, :test]
 group :production do
   gem 'pg', '>= 1.5.3'
 end
+
+gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+

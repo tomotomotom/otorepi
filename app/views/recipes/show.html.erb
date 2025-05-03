@@ -16,6 +16,10 @@
 
 <hr>
 
+<p><strong>投稿者：</strong><%= @recipe.user.nickname.presence || "匿名さん" %></p>
+
+<hr>
+
 <div class="recipe-actions">
   <%= button_to '🔊 読み上げモード',
                 read_recipe_path(@recipe),
@@ -23,18 +27,20 @@
                 class: 'btn btn-secondary',
                 form: { class: 'inline-form' } %>
 
-  <%= button_to '✏️ 編集',
-                edit_recipe_path(@recipe),
-                method: :get,
-                class: 'btn btn-primary',
-                form: { class: 'inline-form' } %>
+  <% if current_user == @recipe.user %>
+    <%= button_to '✏️ 編集',
+                  edit_recipe_path(@recipe),
+                  method: :get,
+                  class: 'btn btn-primary',
+                  form: { class: 'inline-form' } %>
 
-  <%= button_to '🗑️ 削除',
-                recipe_path(@recipe),
-                method: :delete,
-                data: { turbo_confirm: '本当に削除しますか？' },
-                class: 'btn btn-danger',
-                form: { class: 'inline-form' } %>
+    <%= button_to '🗑️ 削除',
+                  recipe_path(@recipe),
+                  method: :delete,
+                  data: { turbo_confirm: '本当に削除しますか？' },
+                  class: 'btn btn-danger',
+                  form: { class: 'inline-form' } %>
+  <% end %>
 
   <%= button_to '🔙 一覧に戻る',
                 recipes_path,
