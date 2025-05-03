@@ -282,9 +282,12 @@
 
 /* ✅ simple_form の input テーマを統一 */
 input[type="text"],
+input[type="email"],
+input[type="password"],
 input[type="number"],
 textarea {
   width: 100%;
+  max-width: 100%;
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -294,10 +297,12 @@ textarea {
   background-color: #fff;
 }
 
+/* 特に height を指定したいのは textarea のみ */
 textarea {
   height: 6rem;
   resize: vertical;
 }
+
 
 /* 🎯 フィールドラベル（simple_form が自動で生成） */
 input + label,
@@ -345,3 +350,4 @@ legend h2 {
     padding: 0.8rem;
   }
 }
+

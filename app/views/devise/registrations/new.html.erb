@@ -1,24 +1,17 @@
-<h2><%= t(".sign_up") %></h2>
+<h2 class="form-heading">📝 新規登録</h2>
 
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true ,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: (t('devise.shared.minimum_password_length', count: @minimum_password_length) if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+  <div class="form-section">
+    <%= f.input :nickname,required: true,label: "ユーザー名" %>
+    <%= f.input :email, required: true, label: "メールアドレス" %>
+    <%= f.input :password, required: true, label: "パスワード" %>
+    <%= f.input :password_confirmation, required: true, label: "パスワード（確認）" %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, t(".sign_up") %>
+    <%= f.button :submit, "登録する", class: "btn btn-main" %>
   </div>
 <% end %>
 
