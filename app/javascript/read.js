@@ -1,6 +1,7 @@
 document.addEventListener("turbo:load", function () {
   const display = document.getElementById("read-display");
   const stepCounter = document.getElementById("step-counter");
+  const speechStatus = document.getElementById("speech-status");
   if (!display) return;
 
   const cleanText = (rawText) => {
@@ -24,15 +25,24 @@ document.addEventListener("turbo:load", function () {
     speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "ja-JP";
+    utter.rate = 0.95;
+    utter.onstart = () => { if (speechStatus) speechStatus.innerText = "読み上げ中"; };
+    utter.onend = () => { if (speechStatus) speechStatus.innerText = "再生終了"; };
+    utter.onerror = () => { if (speechStatus) speechStatus.innerText = "再生できませんでした"; };
     speechSynthesis.speak(utter);
   }
 
-  window.readMaterials = function () {
+  function showMaterials(shouldSpeak = true) {
     const text = materials.join("。") + "。";
     display.innerText = "【材料】\n" + materials.map(m => "・" + m).join("\n");
     stepCounter.innerText = "材料";
-    speak("本日の材料は、" + text);
+    if (speechStatus) speechStatus.innerText = "再生待ち";
+    if (shouldSpeak) speak("本日の材料は、" + text);
     currentStep = 0;
+  }
+
+  window.readMaterials = function () {
+    showMaterials(true);
   };
 
   function displayStep(index) {
@@ -46,12 +56,13 @@ document.addEventListener("turbo:load", function () {
   }
 
   window.startCooking = function () {
+    currentStep = 0;
     displayStep(currentStep);
-    speak(steps[currentStep]);
+    if (steps[currentStep]) speak(steps[currentStep]);
   };
 
   window.repeatStep = function () {
-    speak(steps[currentStep]);
+    if (steps[currentStep]) speak(steps[currentStep]);
   };
 
   window.nextStep = function () {
@@ -72,19 +83,20 @@ document.addEventListener("turbo:load", function () {
 
   window.stopSpeech = function () {
     speechSynthesis.cancel();
+    if (speechStatus) speechStatus.innerText = "停止しました";
   };
 
-  // ✅ 初期：材料を読み上げ
-  readMaterials();
+  // 初期表示では自動再生せず、利用者の操作後に読み上げる
+  showMaterials(false);
 
   // ✅ ページを離れるときに読み上げを止める
-window.addEventListener("beforeunload", () => {
-  speechSynthesis.cancel();
-});
+  window.addEventListener("beforeunload", () => {
+    speechSynthesis.cancel();
+  });
 
 // ✅ Turboナビゲーションでのページ遷移時にも止める
-document.addEventListener("turbo:before-visit", () => {
-  speechSynthesis.cancel();
-});
+  document.addEventListener("turbo:before-visit", () => {
+    speechSynthesis.cancel();
+  });
 
 });

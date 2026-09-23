@@ -1,7 +1,7 @@
 # 🍳 オトレピ - レシピ読み上げアプリ
 
-![Ruby](https://img.shields.io/badge/Ruby-3.2.2-red)
-![Rails](https://img.shields.io/badge/Rails-6.1.7.3-red)
+![Ruby](https://img.shields.io/badge/Ruby-3.2.0-red)
+![Rails](https://img.shields.io/badge/Rails-7.1.5.1-red)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 ![Made with](https://img.shields.io/badge/Made%20with-SpeechSynthesis%20API-blue)
 
@@ -35,7 +35,7 @@
 
 - **フレームワーク**：Ruby on Rails
 - **言語**：Ruby / HTML / CSS / JavaScript
-- **データベース**：SQLite（開発環境）
+- **データベース**：MySQL（開発・テスト）/ PostgreSQL（本番）
 - **音声読み上げ**：`SpeechSynthesis API`（ブラウザ組み込み）
 
 ---
@@ -46,9 +46,12 @@
 git clone https://github.com/tomotomotom/otorepi.git
 cd otorepi
 bundle install
-rails db:create db:migrate
+rails db:prepare
+rails db:seed
 rails server
 ```
+
+`db:seed` は「オトレピ編集部」のサンプルレシピ3件を登録します。何度実行しても同じサンプルが重複しないように設計されています。Renderではデプロイ時に自動実行されるため、新しいDBでもサンプルレシピが表示されます。
 
 ## 🗂 データベース設計
 

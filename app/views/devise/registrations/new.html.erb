@@ -1,18 +1,24 @@
-<h2 class="form-heading">📝 新規登録</h2>
+<section class="auth-page">
+  <div class="auth-card">
+    <p class="eyebrow">START COOKING</p>
+    <h1>無料ではじめる</h1>
+    <p class="auth-card__intro">あなたのレシピを登録して、声で確認できる料理ノートに。</p>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
 
-  <div class="form-section">
-    <%= f.input :nickname,required: true,label: "ユーザー名" %>
-    <%= f.input :email, required: true, label: "メールアドレス" %>
-    <%= f.input :password, required: true, label: "パスワード" %>
-    <%= f.input :password_confirmation, required: true, label: "パスワード（確認）" %>
+      <div class="form-inputs">
+        <%= f.input :nickname, required: true, label: "ユーザー名", input_html: { autocomplete: "nickname" } %>
+        <%= f.input :email, required: true, label: "メールアドレス", input_html: { autocomplete: "email" } %>
+        <%= f.input :password, required: true, label: "パスワード", input_html: { autocomplete: "new-password" } %>
+        <%= f.input :password_confirmation, required: true, label: "パスワード（確認）", input_html: { autocomplete: "new-password" } %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit, "アカウントを作成する", class: "btn btn-main" %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "登録する", class: "btn btn-main" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</section>

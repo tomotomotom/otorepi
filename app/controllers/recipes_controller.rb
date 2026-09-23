@@ -1,13 +1,14 @@
 class RecipesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_recipe, only: %i[show read edit update destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def home
+    @sample_recipes = Recipe.samples.includes(:user).order(:id).limit(3)
   end
 
   def index
-    @recipes = Recipe.all.order(created_at: :desc)
+    @recipes = Recipe.includes(:user).order(created_at: :desc)
   end
   
   def new
@@ -19,20 +20,17 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to @recipe, notice: "レシピを登録しました"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    @recipe = Recipe.find(params[:id])
   end
 
   def read
-    @recipe = Recipe.find(params[:id])
   end
 
   def destroy
-    @recipe = Recipe.find(params[:id])
     if @recipe.destroy
       redirect_to recipes_path, notice: 'レシピを削除しました'
     else
@@ -41,11 +39,9 @@ class RecipesController < ApplicationController
   end
 
   def edit
-    @recipe = Recipe.find(params[:id])
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
     if @recipe.update(recipe_params)
       redirect_to @recipe, notice: "レシピを更新しました"
     else
@@ -54,6 +50,10 @@ class RecipesController < ApplicationController
   end
 
   private
+
+  def set_recipe
+    @recipe = Recipe.find(params[:id])
+  end
 
   def recipe_params
     params.require(:recipe).permit(
@@ -65,16 +65,8 @@ class RecipesController < ApplicationController
   end
 
   def correct_user
-    @recipe = Recipe.find(params[:id])
-    unless @recipe.user == current_user
-      redirect_to recipes_path, alert: "他人のレシピは編集できません。"
-    end
+    return if @recipe.user == current_user
 
-  protected
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
+    redirect_to recipes_path, alert: "他のユーザーのレシピは編集できません。"
   end
-end
 end
