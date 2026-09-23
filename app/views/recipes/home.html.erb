@@ -1,21 +1,88 @@
-<h1 class="top-title">🍳 オトレピへようこそ！</h1>
+<section class="hero">
+  <div class="hero__content">
+    <p class="eyebrow">VOICE RECIPE</p>
+    <h1>聴きながら、<br><span>もっとおいしく。</span></h1>
+    <p class="hero__description">
+      オトレピは、材料と手順を声で案内するレシピアプリ。<br class="desktop-only">
+      画面に触れず、自分のペースで料理を進められます。
+    </p>
+    <div class="hero__actions">
+      <%= link_to recipes_path, class: "btn btn-main btn-large" do %>
+        レシピを見つける <span aria-hidden="true">→</span>
+      <% end %>
+      <%= link_to new_recipe_path, class: "btn btn-ghost btn-large" do %>
+        自分のレシピを書く
+      <% end %>
+    </div>
+    <div class="hero__note"><span aria-hidden="true">●</span> ブラウザの音声機能ですぐに使えます</div>
+  </div>
 
-<p class="top-description">
-  オトレピは、レシピを登録して、手がふさがっていても<br>
-  料理手順や材料を読み上げてくれるレシピアプリです。<br>
-  音声で手順を確認しながら、もっとスムーズに料理しよう！
-</p>
+  <div class="hero__visual" aria-label="読み上げ画面のイメージ">
+    <div class="sound-wave sound-wave--one"></div>
+    <div class="sound-wave sound-wave--two"></div>
+    <div class="preview-card">
+      <div class="preview-card__top">
+        <span class="preview-card__label">COOKING NOW</span>
+        <span class="preview-card__emoji" aria-hidden="true">🍳</span>
+      </div>
+      <p class="preview-card__recipe">ふわとろ親子丼</p>
+      <p class="preview-card__counter">STEP 3 / 5</p>
+      <p class="preview-card__step">溶き卵を2回に分けて<br>ゆっくり回し入れます。</p>
+      <div class="preview-card__player">
+        <span class="preview-card__play" aria-hidden="true">▶</span>
+        <div class="preview-card__progress"><span></span></div>
+        <span class="preview-card__time">0:08</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div class="top-buttons">
-  <%= button_to '➕ レシピを登録する',
-                new_recipe_path,
-                method: :get,
-                class: 'top-button',
-                form: { class: 'inline-form' } %>
+<section class="feature-section page-section">
+  <div class="section-heading section-heading--center">
+    <p class="eyebrow">HOW IT HELPS</p>
+    <h2>料理の「ちょっと困る」を、声で解決</h2>
+  </div>
+  <div class="feature-grid">
+    <article class="feature-card">
+      <span class="feature-card__icon" aria-hidden="true">👂</span>
+      <h3>耳で手順を確認</h3>
+      <p>濡れた手でスマホに触れず、次の工程を音声でチェックできます。</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-card__icon feature-card__icon--green" aria-hidden="true">↔</span>
+      <h3>自分のペースで進む</h3>
+      <p>「次へ」「もう一度」「戻る」を使って、慌てずに調理できます。</p>
+    </article>
+    <article class="feature-card">
+      <span class="feature-card__icon feature-card__icon--yellow" aria-hidden="true">✎</span>
+      <h3>自分のレシピを登録</h3>
+      <p>いつもの作り方を保存して、読み上げやすい自分だけの料理ノートに。</p>
+    </article>
+  </div>
+</section>
 
-  <%= button_to '📋 レシピ一覧を見る',
-                recipes_path,
-                method: :get,
-                class: 'top-button secondary',
-                form: { class: 'inline-form' } %>
-</div>
+<% if @sample_recipes.any? %>
+  <section class="sample-section page-section">
+    <div class="section-heading section-heading--split">
+      <div>
+        <p class="eyebrow">TRY IT NOW</p>
+        <h2>まずは、このレシピから</h2>
+      </div>
+      <%= link_to "すべてのレシピを見る →", recipes_path, class: "text-link" %>
+    </div>
+    <div class="recipe-grid">
+      <%= render partial: "recipe_card", collection: @sample_recipes, as: :recipe, locals: { owner_actions: false } %>
+    </div>
+  </section>
+<% end %>
+
+<section class="cta-banner page-section">
+  <div>
+    <p class="eyebrow eyebrow--light">YOUR KITCHEN, YOUR PACE</p>
+    <h2>いつものレシピを、もっと作りやすく。</h2>
+    <p>無料登録して、あなたの料理ノートをはじめましょう。</p>
+  </div>
+  <%= link_to user_signed_in? ? new_recipe_path : new_user_registration_path, class: "btn btn-light btn-large" do %>
+    <%= user_signed_in? ? "レシピを書く" : "無料ではじめる" %> <span aria-hidden="true">→</span>
+  <% end %>
+</section>

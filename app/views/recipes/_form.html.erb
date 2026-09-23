@@ -1,20 +1,38 @@
-<%= simple_form_for @recipe do |f| %>
-  <div class="form-section">
-    <%= f.input :title, label: "レシピタイトル", input_html: { placeholder: "例：ふわとろオムライス" } %>
-    <%= f.input :description, label: "レシピの説明", input_html: { placeholder: "例：簡単にできるふわふわオムライスです" } %>
+<%= simple_form_for @recipe, html: { class: "recipe-form" } do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-section form-card">
+    <p class="form-card__number">01</p>
+    <div class="form-card__content">
+      <h2>レシピについて</h2>
+      <p>料理名と、どんなレシピかが伝わる短い説明を書きましょう。</p>
+      <%= f.input :title, label: "レシピタイトル", input_html: { placeholder: "例：ふわとろオムライス" } %>
+      <%= f.input :description, as: :text, label: "レシピの説明", input_html: { rows: 3, placeholder: "例：10分でできる、家族に人気のオムライスです" } %>
+    </div>
   </div>
 
-  <fieldset class="form-section">
-    <legend><h2>🧂 材料</h2></legend>
-    <%= f.input :materials_text, as: :text, label: "材料（元レシピからコピペ）", input_html: { rows: 6, placeholder: "例：\n卵 2個\n牛乳 100ml\n砂糖 大さじ2" } %>
+  <fieldset class="form-section form-card">
+    <legend class="visually-hidden">材料</legend>
+    <p class="form-card__number">02</p>
+    <div class="form-card__content">
+      <h2>材料</h2>
+      <p>1行に1つずつ入力すると、読み上げたときに聞き取りやすくなります。</p>
+      <%= f.input :materials_text, as: :text, label: "材料と分量", input_html: { rows: 8, placeholder: "卵 2個\n牛乳 100ml\n砂糖 大さじ2" } %>
+    </div>
   </fieldset>
 
-  <fieldset class="form-section">
-    <legend><h2>📝 手順</h2></legend>
-   <%= f.input :steps_text, as: :text, label: "手順（元レシピからコピペ）", input_html: { rows: 8, placeholder: "例：\n① 卵と牛乳を混ぜる。\n② 砂糖を加える。\n③ 弱火で加熱する。" } %>
+  <fieldset class="form-section form-card">
+    <legend class="visually-hidden">手順</legend>
+    <p class="form-card__number">03</p>
+    <div class="form-card__content">
+      <h2>作り方</h2>
+      <p>1行が読み上げモードの1ステップになります。</p>
+      <%= f.input :steps_text, as: :text, label: "料理の手順", input_html: { rows: 10, placeholder: "卵と牛乳を混ぜる。\n砂糖を加える。\n弱火で加熱する。" } %>
+    </div>
   </fieldset>
 
-  <div style="margin-top: 2rem;">
-    <%= f.button :submit, "✅ レシピを登録する", class: "btn btn-main" %>
+  <div class="form-submit">
+    <%= link_to "キャンセル", @recipe.persisted? ? recipe_path(@recipe) : recipes_path, class: "btn btn-ghost" %>
+    <%= f.button :submit, @recipe.persisted? ? "変更を保存する" : "レシピを登録する", class: "btn btn-main btn-large" %>
   </div>
 <% end %>

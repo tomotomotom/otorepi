@@ -1,21 +1,39 @@
-<h1><%= @recipe.title %>（読み上げモード）</h1>
+<section class="reader-shell">
+  <header class="reader-header">
+    <%= link_to "← レシピに戻る", recipe_path(@recipe), class: "back-link back-link--light" %>
+    <p class="eyebrow eyebrow--light">VOICE COOKING MODE</p>
+    <h1><%= @recipe.title %></h1>
+    <p>画面を見なくても、ボタンひとつで次の手順へ。</p>
+  </header>
 
-<div id="step-counter" style="margin-bottom: 1rem; color: #888;"></div>
+  <div class="reader-card">
+    <div class="reader-card__status">
+      <span id="step-counter">材料</span>
+      <span id="speech-status" aria-live="polite">再生待ち</span>
+    </div>
 
-<!-- 材料・手順データ -->
-<div id="read-display"
-     data-materials="<%= escape_javascript(@recipe.materials_text.to_s) %>"
-     data-steps="<%= escape_javascript(@recipe.steps_text.to_s) %>"
-     style="margin: 2rem 0; font-size: 1.5rem; font-weight: bold;">
-</div>
+    <div id="read-display"
+         class="reader-card__display"
+         data-materials="<%= @recipe.materials_text.to_s %>"
+         data-steps="<%= @recipe.steps_text.to_s %>"
+         aria-live="polite">
+    </div>
 
-<div class="read-controls" style="margin-bottom: 1.5rem;">
-  <button onclick="readMaterials()">🥬 材料を読み上げ</button>
-  <button onclick="startCooking()">🍳 料理を開始</button>
-  <button onclick="prevStep()">⬅️ 戻る</button>
-  <button onclick="nextStep()">次へ ➡️</button>
-  <button onclick="repeatStep()">🔊 今のステップ</button>
-  <button onclick="stopSpeech()">🔇 音声を止める</button>
-</div>
+    <div class="reader-primary-controls">
+      <button type="button" class="reader-button reader-button--secondary" onclick="readMaterials()">
+        <span aria-hidden="true">🥕</span> 材料を聴く
+      </button>
+      <button type="button" class="reader-button reader-button--primary" onclick="startCooking()">
+        <span aria-hidden="true">▶</span> 料理を開始
+      </button>
+    </div>
 
-<%= link_to '📄 レシピ詳細に戻る', recipe_path(@recipe), class: 'btn btn-secondary' %>
+    <div class="reader-step-controls">
+      <button type="button" onclick="prevStep()"><span aria-hidden="true">←</span> 戻る</button>
+      <button type="button" onclick="repeatStep()"><span aria-hidden="true">↻</span> もう一度</button>
+      <button type="button" onclick="nextStep()">次へ <span aria-hidden="true">→</span></button>
+    </div>
+
+    <button type="button" class="reader-stop" onclick="stopSpeech()">■ 音声を止める</button>
+  </div>
+</section>

@@ -1,50 +1,58 @@
-<h1><%= @recipe.title %></h1>
+<article class="recipe-detail">
+  <header class="recipe-detail__header">
+    <%= link_to "← レシピ一覧", recipes_path, class: "back-link" %>
+    <div class="recipe-detail__title-row">
+      <div>
+        <div class="recipe-card__badges">
+          <% if @recipe.sample? %><span class="badge badge--sample">サンプル</span><% end %>
+          <span class="badge">音声対応</span>
+        </div>
+        <h1><%= @recipe.title %></h1>
+        <p><%= @recipe.description.presence || "説明はありません。" %></p>
+        <span class="recipe-detail__author">by <%= @recipe.user.nickname.presence || "匿名さん" %></span>
+      </div>
+      <div class="recipe-detail__emoji" aria-hidden="true"><%= recipe_emoji(@recipe) %></div>
+    </div>
+    <div class="recipe-detail__primary-actions">
+      <%= link_to read_recipe_path(@recipe), class: "btn btn-main btn-large" do %>
+        <span aria-hidden="true">▶</span> 読み上げモードを開く
+      <% end %>
+      <% if current_user == @recipe.user %>
+        <%= link_to "編集する", edit_recipe_path(@recipe), class: "btn btn-ghost" %>
+      <% end %>
+    </div>
+  </header>
 
-<p><strong>説明：</strong><%= @recipe.description.presence || "（説明はありません）" %></p>
+  <div class="recipe-detail__content">
+    <section class="recipe-panel recipe-panel--ingredients">
+      <p class="eyebrow">INGREDIENTS</p>
+      <h2>材料</h2>
+      <ul class="ingredient-list">
+        <% @recipe.materials_text.lines.map(&:strip).reject(&:blank?).each do |material| %>
+          <li><span aria-hidden="true"></span><%= material %></li>
+        <% end %>
+      </ul>
+    </section>
 
-<hr>
-
-<h2>🧂 材料</h2>
-<div class="ingredient-block">
-  <pre><%= h @recipe.materials_text %></pre>
-</div>
-
-<h2>📝 手順</h2>
-<div class="step-block">
-  <pre><%= h @recipe.steps_text %></pre>
-</div>
-
-<hr>
-
-<p><strong>投稿者：</strong><%= @recipe.user.nickname.presence || "匿名さん" %></p>
-
-<hr>
-
-<div class="recipe-actions">
-  <%= button_to '🔊 読み上げモード',
-                read_recipe_path(@recipe),
-                method: :get,
-                class: 'btn btn-secondary',
-                form: { class: 'inline-form' } %>
+    <section class="recipe-panel recipe-panel--steps">
+      <p class="eyebrow">DIRECTIONS</p>
+      <h2>作り方</h2>
+      <ol class="step-list">
+        <% @recipe.steps_text.lines.map(&:strip).reject(&:blank?).each_with_index do |step, index| %>
+          <li>
+            <span class="step-list__number" aria-hidden="true"><%= index + 1 %></span>
+            <span><%= step %></span>
+          </li>
+        <% end %>
+      </ol>
+    </section>
+  </div>
 
   <% if current_user == @recipe.user %>
-    <%= button_to '✏️ 編集',
-                  edit_recipe_path(@recipe),
-                  method: :get,
-                  class: 'btn btn-primary',
-                  form: { class: 'inline-form' } %>
-
-    <%= button_to '🗑️ 削除',
-                  recipe_path(@recipe),
-                  method: :delete,
-                  data: { turbo_confirm: '本当に削除しますか？' },
-                  class: 'btn btn-danger',
-                  form: { class: 'inline-form' } %>
+    <div class="danger-zone">
+      <%= button_to "このレシピを削除", recipe_path(@recipe), method: :delete,
+                    data: { turbo_confirm: "本当に削除しますか？" },
+                    class: "text-button text-button--danger" %>
+    </div>
   <% end %>
-
-  <%= button_to '🔙 一覧に戻る',
-                recipes_path,
-                method: :get,
-                class: 'btn btn-main',
-                form: { class: 'inline-form' } %>
-</div>
+</article>

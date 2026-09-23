@@ -1,7 +1,7 @@
 # 🍳 オトレピ - レシピ読み上げアプリ
 
-![Ruby](https://img.shields.io/badge/Ruby-3.2.2-red)
-![Rails](https://img.shields.io/badge/Rails-6.1.7.3-red)
+![Ruby](https://img.shields.io/badge/Ruby-3.2.0-red)
+![Rails](https://img.shields.io/badge/Rails-7.1.5.1-red)
 ![License](https://img.shields.io/badge/License-MIT-brightgreen)
 ![Made with](https://img.shields.io/badge/Made%20with-SpeechSynthesis%20API-blue)
 
@@ -20,6 +20,8 @@
 
 ## ✨ 機能（MVP）
 
+- ユーザー登録・ログイン
+- 投稿者本人によるレシピの編集・削除
 - レシピの登録（タイトル・材料・手順）
   ![レシピ登録](./レシピ登録.png)
 - 登録済みレシピの一覧表示
@@ -28,6 +30,7 @@
   ![詳細画面](./詳細画面.png)
 - ステップごとに音声でレシピを読み上げる（ブラウザの音声合成機能を使用）
   ![読み上げ](./読み上げ.png)
+- 初回デプロイ時から試せるサンプルレシピ3件
 
 ---
 
@@ -35,8 +38,9 @@
 
 - **フレームワーク**：Ruby on Rails
 - **言語**：Ruby / HTML / CSS / JavaScript
-- **データベース**：SQLite（開発環境）
+- **データベース**：MySQL（開発・テスト）/ PostgreSQL（本番）
 - **音声読み上げ**：`SpeechSynthesis API`（ブラウザ組み込み）
+- **デプロイ**：Render
 
 ---
 
@@ -46,9 +50,12 @@
 git clone https://github.com/tomotomotom/otorepi.git
 cd otorepi
 bundle install
-rails db:create db:migrate
+rails db:prepare
+rails db:seed
 rails server
 ```
+
+`db:seed` は「オトレピ編集部」のサンプルレシピ3件を登録します。何度実行しても同じサンプルが重複しないように設計されています。Renderではデプロイ時に自動実行されるため、新しいDBでもサンプルレシピが表示されます。
 
 ## 🗂 データベース設計
 
@@ -74,7 +81,7 @@ Amazon Polly等を使った高品質音声読み上げ
 
 レシピの共有（他ユーザーと使える機能）
 
-ユーザー登録・ログイン機能（任意）
+スマートフォンでの読み上げ操作をさらに改善
 
 ---
 

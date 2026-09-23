@@ -1,43 +1,25 @@
-<h1>📚 登録済みレシピ一覧</h1>
+<section class="page-hero page-hero--compact">
+  <div>
+    <p class="eyebrow">RECIPE LIBRARY</p>
+    <h1>今日は、なにを作ろう？</h1>
+    <p>読み上げながら作れる、みんなのレシピノートです。</p>
+  </div>
+  <%= link_to new_recipe_path, class: "btn btn-main" do %>
+    <span aria-hidden="true">＋</span> 新しいレシピを書く
+  <% end %>
+</section>
 
-<%= button_to '➕ 新しいレシピを登録する',
-              new_recipe_path,
-              method: :get,
-              class: 'btn btn-main',
-              form: { class: 'inline-form' } %>
-
-<hr>
-
-<% if @recipes.any? %>
-  <ul>
-    <% @recipes.each do |recipe| %>
-      <li style="margin-bottom: 1.5rem;">
-        <strong><%= recipe.title %></strong><br>
-        <%= truncate(recipe.description, length: 80) if recipe.description.present? %><br>
-
-        <%= button_to '詳細を見る',
-                      recipe_path(recipe),
-                      method: :get,
-                      class: 'btn btn-primary',
-                      form: { class: 'inline-form' } %>
-
-        <%= button_to '読み上げモードへ',
-                      read_recipe_path(recipe),
-                      method: :get,
-                      class: 'btn btn-secondary',
-                      form: { class: 'inline-form' } %>
-
-        <% if current_user == recipe.user %>
-          <%= button_to '🗑️ レシピを削除',
-                        recipe_path(recipe),
-                        method: :delete,
-                        data: { turbo_confirm: '本当に削除しますか？' },
-                        class: 'btn btn-danger',
-                        form: { class: 'inline-form' } %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>まだレシピが登録されていません。</p>
-<% end %>
+<section class="page-section page-section--first">
+  <% if @recipes.any? %>
+    <div class="recipe-grid">
+      <%= render partial: "recipe_card", collection: @recipes, as: :recipe, locals: { owner_actions: true } %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <span class="empty-state__icon" aria-hidden="true">🍲</span>
+      <h2>レシピはまだありません</h2>
+      <p>最初のレシピを登録して、料理中に読み上げてみましょう。</p>
+      <%= link_to "最初のレシピを書く", new_recipe_path, class: "btn btn-main" %>
+    </div>
+  <% end %>
+</section>

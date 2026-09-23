@@ -1,11 +1,8 @@
-<h1>✏️ レシピを編集する</h1>
-
-<%= render 'form', recipe: @recipe %>
-
-<div style="margin-top: 2rem;">
-  <%= button_to '🔙 詳細画面へ戻る',
-                recipe_path(@recipe),
-                method: :get,
-                class: 'btn btn-secondary',
-                form: { class: 'inline-form' } %>
-</div>
+<section class="form-page">
+  <header class="page-heading">
+    <p class="eyebrow">EDIT RECIPE</p>
+    <h1>レシピを編集する</h1>
+    <p>読み上げたときに分かりやすい表現へ整えましょう。</p>
+  </header>
+  <%= render 'form', recipe: @recipe %>
+</section>

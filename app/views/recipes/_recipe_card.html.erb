@@ -1,0 +1,30 @@
+<article class="recipe-card">
+  <div class="recipe-card__visual" aria-hidden="true">
+    <span><%= recipe_emoji(recipe) %></span>
+    <div class="recipe-card__waves"><i></i><i></i><i></i><i></i></div>
+  </div>
+  <div class="recipe-card__body">
+    <div class="recipe-card__badges">
+      <% if recipe.sample? %>
+        <span class="badge badge--sample">サンプル</span>
+      <% end %>
+      <span class="badge">音声対応</span>
+    </div>
+    <h2><%= link_to recipe.title, recipe_path(recipe) %></h2>
+    <p><%= truncate(recipe.description.presence || "説明はありません。", length: 72) %></p>
+    <div class="recipe-card__meta">
+      <span>by <%= recipe.user.nickname.presence || "匿名さん" %></span>
+    </div>
+  </div>
+  <div class="recipe-card__actions">
+    <%= link_to "詳しく見る", recipe_path(recipe), class: "text-link" %>
+    <%= link_to read_recipe_path(recipe), class: "listen-link" do %>
+      <span aria-hidden="true">▶</span> 読み上げる
+    <% end %>
+    <% if owner_actions && current_user == recipe.user %>
+      <%= button_to "削除", recipe_path(recipe), method: :delete,
+                    data: { turbo_confirm: "本当に削除しますか？" },
+                    class: "text-button text-button--danger" %>
+    <% end %>
+  </div>
+</article>
